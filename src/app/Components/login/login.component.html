@@ -1,12 +1,15 @@
-<form class="container my-5">
+<form class="container my-5" (ngSubmit)="loginUser()">
   <div class="form-group my-3">
     <label for="exampleInputEmail1" class="my-2">Email address</label>
+    <!-- In input ngModel "? and !" is used to prevent undefinied error -->
     <input
       type="email"
       class="form-control"
       id="exampleInputEmail1"
       aria-describedby="emailHelp"
       placeholder="Enter email"
+      name="email"
+      [(ngModel)]="userDO?.loginDO.email"
     />
     <small id="emailHelp" class="form-text text-muted"
       >We'll never share your email with anyone else.</small
@@ -19,6 +22,8 @@
       class="form-control"
       id="exampleInputPassword1"
       placeholder="Password"
+      name="password"
+      [(ngModel)]="userDO?.loginDO.password"
     />
   </div>
   <div class="text-center">
@@ -28,3 +33,4 @@
   <div class="dropdown-divider "></div>
   <a class="dropdown-item" routerLink="signup">New around here? Sign up</a>
 </form>
+<h1>{{userDO | json}}</h1>

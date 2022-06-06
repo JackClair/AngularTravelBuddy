@@ -13,13 +13,16 @@ import { NavbarComponent } from './Components/navbar/navbar.component';
 import { SignupComponent } from './Components/signup/signup.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { CreateUserService } from './service/create-user.service';
+import { HomeComponent } from './Componentes/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     NavbarComponent,
-    SignupComponent
+    SignupComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +35,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatRadioModule,
     HttpClientModule,
   ],
-  providers: [],
+  //Put services here
+  providers: [CreateUserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

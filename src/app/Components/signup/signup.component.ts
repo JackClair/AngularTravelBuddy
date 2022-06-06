@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CreateUserService } from 'src/app/service/create-user.service';
 
 @Component({
   selector: 'app-signup',
@@ -7,33 +8,88 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignupComponent implements OnInit {
   // The inputs that has to taken from form hsa to be declared here
-  firstName!: string;
-  lastName!: string;
-  birthdayDate!: string;
-  gender!:  string;
   Genders: string[] = ['Male', 'Female'];
-  emailAddress!: string;
-  phoneNumber!: Number;
-  password!: string;
-  confirmpassword!: string;
-  country!: string;
+  createUser = {
+  firstName: "",
+  lastName!: "",
+  birthdayDate : "",
+  gender!:  "",
+  
+  phoneNumber!: "",
+  loginDO !: {
+    email!: "",
+    password!: "",
+    confirmPassword!: ""
+  },
+  country!: ""
+  }
 
-  constructor() { }
+  constructor(private postRequest : CreateUserService) { 
+
+  }
 
   ngOnInit(): void {
   }
-  onSubmit()
+
+  getUserFormData()
   {
-    const createUser = {
-      firstName: this.firstName,
-      lastName: this.lastName,
-      birthdayDate: this.birthdayDate,
-      gender: this.gender,
-      emailAddress : this.emailAddress,
-      phoneNumber : this.phoneNumber,
-      password : this.password,
-      country : this.country
+    
+    if (this.validateForm())
+    {
+    this.postRequest.sendUserData(this.createUser);
     }
   }
 
+  validateForm()
+  {
+    if (this.createUser.firstName == "" || this.createUser.lastName == "" || this.createUser.birthdayDate == "" || this.createUser.
+    phoneNumber == "" || this.createUser.loginDO.email == "" || this.createUser.loginDO.password == "" || this.createUser.
+    loginDO.confirmPassword == "" || this.createUser.country == "")
+    {
+      alert("Please fill in all the fields");
+      return false;
+    }
+    else if (this.createUser.loginDO.password != this.createUser.loginDO.confirmPassword)
+    {
+      alert("Passwords do not match");
+      return false;
+    }
+    else if (this.createUser.phoneNumber.length != 10)
+    {
+      alert("Please enter a valid phone number");
+      return false;
+    }
+    else if (this.createUser.country == "")
+    {
+      alert("Please enter a valid country");
+      return false;
+    }
+    else if(this.createUser.loginDO.email.indexOf('@') == -1)
+    {
+      alert("Please enter a valid email address");
+      return false;
+    }
+    else if(this.createUser.loginDO.email.indexOf('.') == -1)
+    {
+      alert("Please enter a valid email address");
+      return false;
+    }
+    else if (this.createUser.loginDO.password.length < 8)
+    {
+      alert("Password must be at least 8 characters long");
+      return false;
+    }
+    else if (this.createUser.loginDO.password.indexOf(' ') != -1)
+    {
+      alert("Password must not contain spaces");
+      return false;
+    }
+    else if (this.createUser.loginDO.password.indexOf('!') != -1)
+    {
+      alert("Password must not contain !");
+      return false;
+    }
+    return true;
+  }
 }
+
